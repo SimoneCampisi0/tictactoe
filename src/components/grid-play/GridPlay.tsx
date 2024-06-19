@@ -1,8 +1,10 @@
 import {useState} from "react";
 import './GridPlay.css'
 import Grid from "../shared/Grid.tsx";
+import {Matches} from "../models/Matches.ts";
 
-function GridPlay() {
+// @ts-ignore
+function GridPlay({ endPlay }) {
   const [matrix, setMatrix] = useState([
     [" ", " ", " "],
     [" ", " ", " "],
@@ -12,75 +14,75 @@ function GridPlay() {
   const [player, setPlayer] = useState(1);
   const [winner, setWinner] = useState(0);
 
-  function checkWin(p: string) {
-    if (matrix[0][0] == p && matrix[0][1] == p && matrix[0][2] == p) {
-      p == "X" ? setWinner(1) : setWinner(2);
-      return;
+  function checkWin(newMatrix: string[][], p: string) {
+    let localWinner = 0;
+
+    if (newMatrix[0][0] === p && newMatrix[0][1] === p && newMatrix[0][2] === p) {
+      console.log("1")
+      localWinner = p === "X" ? 1 : 2;
     }
 
-    if (matrix[1][0] == p && matrix[1][1] == p && matrix[1][2] == p) {
-      p == "X" ? setWinner(1) : setWinner(2);
-      return;
+    else if (newMatrix[1][0] == p && newMatrix[1][1] == p && newMatrix[1][2] == p) {
+      localWinner = p === "X" ? 1 : 2;
     }
 
-    if (matrix[2][0] == p && matrix[2][1] == p && matrix[2][2] == p) {
-      p == "X" ? setWinner(1) : setWinner(2);
-      return;
+    else if (newMatrix[2][0] == p && newMatrix[2][1] == p && newMatrix[2][2] == p) {
+      localWinner = p === "X" ? 1 : 2;
     }
 
-    if (matrix[0][0] == p && matrix[1][0] == p && matrix[2][0] == p) {
-      p == "X" ? setWinner(1) : setWinner(2);
+    else if (newMatrix[0][0] == p && newMatrix[1][0] == p && newMatrix[2][0] == p) {
+      localWinner = p === "X" ? 1 : 2;
     }
 
-    if (matrix[0][1] == p && matrix[1][1] == p && matrix[2][1] == p) {
-      p == "X" ? setWinner(1) : setWinner(2);
+    else if (newMatrix[0][1] == p && newMatrix[1][1] == p && newMatrix[2][1] == p) {
+      localWinner = p === "X" ? 1 : 2;
     }
 
-    if (matrix[0][2] == p && matrix[1][2] == p && matrix[2][2] == p) {
-      p == "X" ? setWinner(1) : setWinner(2);
+    else if (newMatrix[0][2] == p && newMatrix[1][2] == p && newMatrix[2][2] == p) {
+      localWinner = p === "X" ? 1 : 2;
     }
 
-    if (matrix[0][0] == p && matrix[1][1] == p && matrix[2][2] == p) {
-      p == "X" ? setWinner(1) : setWinner(2);
+    else if (newMatrix[0][0] == p && newMatrix[1][1] == p && newMatrix[2][2] == p) {
+      localWinner = p === "X" ? 1 : 2;
+
     }
 
-    console.log("matrix: ", matrix)
-    if (matrix[0][2] == p && matrix[1][1] == p && matrix[2][0] == p) {
-      console.log("entro")
-      p == "X" ? setWinner(1) : setWinner(2);
-      console.log("winner: ", winner)
+    else if (newMatrix[0][2] == p && newMatrix[1][1] == p && newMatrix[2][0] == p) {
+      localWinner = p === "X" ? 1 : 2;
     }
 
     let emptyCell = 0;
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        if (matrix[i][j] === " " || matrix[i][j] === null) {
+        if (newMatrix[i][j] === " " || newMatrix[i][j] === null) {
           emptyCell++;
         }
       }
     }
 
-    if (emptyCell == 0) {
+    if (emptyCell === 0 && localWinner === 0) {
       setWinner(9);
+    }
+
+    if(localWinner === 1 || localWinner === 2 || localWinner === 9) {
+      setWinner(localWinner);
+      const matches: Matches = {winner: localWinner, matrix: newMatrix};
+      endPlay(matches)
     }
 
   }
 
-  function handleClick(i: number, j: number) {
-    checkWin('X');
-    checkWin('O');
+  function handleClick(i, j) {
+    if (matrix[i][j] !== " ") return;
 
-    if (matrix[i][j] === " " || matrix[i][j] === null) {
-      let temp = [...matrix];
+    const newMatrix = [...matrix.map(row => [...row])];
+    newMatrix[i][j] = player === 1 ? 'X' : 'O';
 
-      temp[i][j] = player === 1 ? 'X' : 'O';
+    setMatrix(newMatrix);
+    setPlayer(player === 1 ? 2 : 1);
 
-      setMatrix(temp);
-      setPlayer(player === 1 ? 2 : 1);
-    }
-
-    checkWin('X');
-    checkWin('O');
+    checkWin(newMatrix, 'X');
+    checkWin(newMatrix, 'O');
   }
 
   function resetMatrix() {

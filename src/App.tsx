@@ -1,9 +1,15 @@
 import './App.css'
 import GridPlay from "./components/grid-play/GridPlay.tsx";
 import StoricoPartite from "./components/storico-partite/StoricoPartite.tsx";
+import {Matches} from "./components/models/Matches.ts";
 
 function App() {
+  let matchesVar: Matches[] = [];
 
+  function onEndPlay(matches: Matches[]) {
+    console.log("matches onEndPlay: ", matches)
+    matchesVar = matches;
+  }
 
   return (
       <>
@@ -11,10 +17,10 @@ function App() {
 
           <div className="flex flex-col items-center justify-center">
             <div className="p-2 rounded-2xl">
-              <GridPlay></GridPlay>
+              <GridPlay endPlay={onEndPlay}></GridPlay>
             </div>
 
-            <StoricoPartite></StoricoPartite>
+            <StoricoPartite matches={matchesVar}></StoricoPartite>
           </div>
         </div>
 
