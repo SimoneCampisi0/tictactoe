@@ -18,7 +18,6 @@ function GridPlay({ endPlay }) {
     let localWinner = 0;
 
     if (newMatrix[0][0] === p && newMatrix[0][1] === p && newMatrix[0][2] === p) {
-      console.log("1")
       localWinner = p === "X" ? 1 : 2;
     }
 
@@ -60,16 +59,19 @@ function GridPlay({ endPlay }) {
       }
     }
 
+    // Pareggio
     if (emptyCell === 0 && localWinner === 0) {
       setWinner(9);
     }
 
+    // Caso di vittoria di giocatore 1, 2 o pareggio
     if(localWinner === 1 || localWinner === 2 || localWinner === 9) {
       setWinner(localWinner);
       const matches: Matches = {winner: localWinner, matrix: newMatrix};
       endPlay(matches)
     }
 
+    return winner;
   }
 
   function handleClick(i, j) {
@@ -77,12 +79,13 @@ function GridPlay({ endPlay }) {
 
     const newMatrix = [...matrix.map(row => [...row])];
     newMatrix[i][j] = player === 1 ? 'X' : 'O';
-
+    
     setMatrix(newMatrix);
     setPlayer(player === 1 ? 2 : 1);
 
-    checkWin(newMatrix, 'X');
-    checkWin(newMatrix, 'O');
+    if(checkWin(newMatrix, 'X')) {
+      checkWin(newMatrix, 'O');
+    }
   }
 
   function resetMatrix() {
@@ -92,6 +95,7 @@ function GridPlay({ endPlay }) {
       [" ", " ", " "]
     ];
 
+    setPlayer(1);
     setWinner(0);
     setMatrix(temp);
   }

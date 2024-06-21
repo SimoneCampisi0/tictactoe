@@ -7,8 +7,8 @@ function App() {
   let matchesVar: Matches[] = [];
 
   function onEndPlay(matches: Matches[]) {
-    console.log("matches onEndPlay: ", matches)
     matchesVar = matches;
+    console.log("matchesVar: ", matchesVar)
   }
 
   return (
