@@ -1,14 +1,14 @@
 import './App.css'
 import GridPlay from "./components/grid-play/GridPlay.tsx";
 import StoricoPartite from "./components/storico-partite/StoricoPartite.tsx";
-import {Matches} from "./components/models/Matches.ts";
+import {Match} from "./components/models/Match.ts";
+import {useState} from "react";
 
 function App() {
-  let matchesVar: Matches[] = [];
+  const [matches, setMatches] = useState<Match[]>([]);
 
-  function onEndPlay(matches: Matches[]) {
-    matchesVar = matches;
-    console.log("matchesVar: ", matchesVar)
+  function onEndPlay(match: Match) {
+    setMatches([...matches, match]);
   }
 
   return (
@@ -20,7 +20,7 @@ function App() {
               <GridPlay endPlay={onEndPlay}></GridPlay>
             </div>
 
-            <StoricoPartite matches={matchesVar}></StoricoPartite>
+            <StoricoPartite matches={matches}></StoricoPartite>
           </div>
         </div>
 
