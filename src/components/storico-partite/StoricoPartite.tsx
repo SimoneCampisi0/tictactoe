@@ -15,7 +15,7 @@ function StoricoPartite({matches}) {
             <div className="flex flex-col items-center justify-center">
                 <div className="text-white text-4xl">Storico Partite</div>
 
-                <div className="mt-7 p-2 rounded-2xl flex flex-row flex-wrap">
+                <div className="mt-7 p-2 rounded-2xl flex flex-row flex-wrap justify-center">
                   {flattenedMatches.map((match: Match, index: number) => {
                     return (
                         <div key={index} className="flex flex-col">

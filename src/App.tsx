@@ -13,8 +13,7 @@ function App() {
 
   return (
       <>
-        <div className="h-screen fixed top-0 left-0 w-screen bg-sky-950">
-
+        <div className="min-h-screen top-0 left-0 w-screen bg-sky-950">
           <div className="flex flex-col items-center justify-center">
             <div className="p-2 rounded-2xl">
               <GridPlay endPlay={onEndPlay}></GridPlay>
