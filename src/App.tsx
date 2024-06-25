@@ -18,7 +18,6 @@ function App() {
             <div className="p-2 rounded-2xl">
               <GridPlay endPlay={onEndPlay}></GridPlay>
             </div>
-
             <StoricoPartite matches={matches}></StoricoPartite>
           </div>
         </div>
