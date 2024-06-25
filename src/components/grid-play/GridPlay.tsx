@@ -13,7 +13,7 @@ function GridPlay({endPlay}) {
   const [player, setPlayer] = useState(1);
   const [winner, setWinner] = useState(0);
 
-  function checkWin(newMatrix: string[][], p: string) {
+  function isWinner(newMatrix: string[][], p: string) {
     if (winner !== 1 && winner !== 2 && winner !== 9) {
       let localWinner: number = 0;
 
@@ -32,6 +32,7 @@ function GridPlay({endPlay}) {
       } else if (newMatrix[0][0] == p && newMatrix[1][1] == p && newMatrix[2][2] == p) {
         localWinner = p === "X" ? 1 : 2;
       } else if (newMatrix[0][2] == p && newMatrix[1][1] == p && newMatrix[2][0] == p) {
+        console.log("case")
         localWinner = p === "X" ? 1 : 2;
       }
 
@@ -82,8 +83,9 @@ function GridPlay({endPlay}) {
     setMatrix(newMatrix);
     setPlayer(player === 1 ? 2 : 1);
 
-    if (checkWin(newMatrix, 'X')) {
-      checkWin(newMatrix, 'O');
+    if (!isWinner(newMatrix, 'X')) {
+      console.log("entro")
+      isWinner(newMatrix, 'O');
     }
   }
 
