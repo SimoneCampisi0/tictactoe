@@ -3,7 +3,7 @@ import './GridPlay.css'
 import Grid from "../shared/Grid.tsx";
 
 // @ts-ignore
-function GridPlay({endPlay}) {
+function GridPlay({onEndPlay}) {
   const [matrix, setMatrix] = useState([
     [" ", " ", " "],
     [" ", " ", " "],
@@ -38,7 +38,7 @@ function GridPlay({endPlay}) {
 
       if (localWinner === (p === "X" ? 1 : 2)) {
         setWinner(localWinner);
-        endPlay([{winner: localWinner, matrix: newMatrix}]);
+        onEndPlay({winner: localWinner, matrix: newMatrix});
         return true;
       }
 
@@ -54,7 +54,7 @@ function GridPlay({endPlay}) {
       // Caso di pareggio
       if (emptyCell === 0) {
         setWinner(9);
-        endPlay({winner: 9, matrix: newMatrix});
+        onEndPlay({winner: 9, matrix: newMatrix});
         return true;
       }
 
@@ -84,7 +84,6 @@ function GridPlay({endPlay}) {
     setPlayer(player === 1 ? 2 : 1);
 
     if (!isWinner(newMatrix, 'X')) {
-      console.log("entro")
       isWinner(newMatrix, 'O');
     }
   }
