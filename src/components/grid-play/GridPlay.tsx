@@ -1,9 +1,9 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import './GridPlay.css'
 import Grid from "../shared/Grid.tsx";
 
 // @ts-ignore
-function GridPlay({onEndPlay}) {
+function GridPlay({onEndPlay, players}) {
   const [matrix, setMatrix] = useState([
     [" ", " ", " "],
     [" ", " ", " "],
@@ -12,6 +12,11 @@ function GridPlay({onEndPlay}) {
 
   const [player, setPlayer] = useState(1);
   const [winner, setWinner] = useState(0);
+
+  useEffect(() => {
+    console.log("players: ", players)
+  })
+
 
   function isWinner(newMatrix: string[][], p: string) {
     if (winner !== 1 && winner !== 2 && winner !== 9) {
@@ -90,6 +95,10 @@ function GridPlay({onEndPlay}) {
 
   return (
       <>
+
+        <div>{players[0].username}</div>
+        <div>{players[1].username}</div>
+
         <div className="flex flex-row justify-between items-center p-5">
           <div className="text-4xl text-white">Tris</div>
           {/*<div>Play Again</div>*/}

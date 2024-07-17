@@ -3,6 +3,7 @@ import GridPlay from "./components/grid-play/GridPlay.tsx";
 import StoricoPartite from "./components/storico-partite/StoricoPartite.tsx";
 import {Match} from "./components/models/Match.ts";
 import {useState} from "react";
+import {PlayerResponse} from "./components/dto/PlayerResponse.ts";
 
 function App() {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -13,6 +14,8 @@ function App() {
     namePlayer1: '',
     namePlayer2: ''
   });
+
+  const [players, setPlayers] = useState<PlayerResponse[]>([]);
 
   function onEndPlay(match: Match) {
     setMatches([...matches, match]);
@@ -26,20 +29,47 @@ function App() {
     }));
   }
 
-  function onSubmit() {
+  async function onSubmit() {
     /* Implementare chiamata API al BE per salvare i nomi dei giocatori. Realizzare quindi una versione lite,
     in cui non è necessaria l'autenticazione. Si salverà nel DB soltanto il nome del player e la relazione con il match giocato.
     Salvare i giocatori soltanto se il match è stato confermato.
 
     Finita una partita, il BE esporrà una get per cui, inserito un nome giocatore, si vedrà la cronologia delle sue partite.
      */
+    const username: string[] = [form.namePlayer1, form.namePlayer2];
+    const request = {
+      username: username
+    };
+
+    console.log("request: ", request);
+
+    try {
+      const resp = await fetch("http://localhost:8080/player/save-players-lite", {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+
+      if (!resp.ok) {
+        throw new Error(`Error: ${resp.status} ${resp.statusText}`);
+      }
+
+      const data: PlayerResponse[] = await resp.json();
+
+      setStartToPlay(true);
+      setViewForm(false);
+      setPlayers(data);
+    } catch (e) {
+      console.error("Errore durante la chiamata: ", e);
+    }
   }
 
   return (
       <>
         <div className="min-h-screen top-0 left-0 w-screen bg-sky-950">
-
-          {!viewForm &&
+          {!viewForm && !startToPlay &&
               <div className="pt-28 flex flex-col gap-4 items-center justify-center h-screen">
                 <div className="text-4xl text-white">Tris</div>
                 <button className="p-2 border-sky-500 bg-white rounded-lg text-4xl" onClick={() => setViewForm(true)}>Play</button>
@@ -73,7 +103,7 @@ function App() {
 
           {startToPlay && <div className="pt-28 flex flex-col items-center justify-center">
               <div className="p-2 rounded-2xl">
-                  <GridPlay onEndPlay={onEndPlay}></GridPlay>
+                  <GridPlay onEndPlay={onEndPlay} players={players}></GridPlay>
               </div>
               <StoricoPartite matches={matches}></StoricoPartite>
           </div>}
