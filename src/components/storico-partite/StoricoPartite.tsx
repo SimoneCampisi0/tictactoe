@@ -17,8 +17,7 @@ function StoricoPartite({matches}) {
                   {matches.map((match: Match, index: number) => {
                     return (
                         <div key={index} className="flex flex-col">
-                          {match.winner === 1 && <div className="text-white pl-6">Ha vinto il giocatore 1</div>}
-                          {match.winner === 2 && <div className="text-white pl-6">Ha vinto il giocatore 2</div>}
+                          {match.winner !== 9 && <div className="text-white pl-6">Ha vinto {match.winner.username}</div>}
                           {match.winner === 9 && <div className="text-white pl-6">Pareggio</div>}
                           {match.matrix && <Grid onCellClick={onCellClick} matrix={match.matrix}></Grid>}
                         </div>

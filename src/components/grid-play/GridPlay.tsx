@@ -43,7 +43,7 @@ function GridPlay({onEndPlay, players}) {
 
       if (localWinner === (p === "X" ? 1 : 2)) {
         setWinner(localWinner);
-        onEndPlay({winner: localWinner, matrix: newMatrix});
+        onEndPlay({winner: localWinner === 1 ? players[0] : players[1], loser: localWinner === 1 ? players[1] : players[0], matrix: newMatrix});
         return true;
       }
 
@@ -96,11 +96,19 @@ function GridPlay({onEndPlay, players}) {
   return (
       <>
 
-        <div>{players[0].username}</div>
-        <div>{players[1].username}</div>
+        <div className="flex flex-row justify-between items-center text-white p-5">
+          <div>
+            <div className="text-xl mb-2">Giocatore 1</div>
+            <div>{players[0].username}</div>
+          </div>
+          <div>
+            <div className="text-xl mb-2">Giocatore 2</div>
+            <div>{players[1].username}</div>
+          </div>
+        </div>
 
         <div className="flex flex-row justify-between items-center p-5">
-          <div className="text-4xl text-white">Tris</div>
+        <div className="text-4xl text-white">Tris</div>
           {/*<div>Play Again</div>*/}
           <div className="flex flex-col justify-between">
             {(winner == 0 || winner == 9) && <button

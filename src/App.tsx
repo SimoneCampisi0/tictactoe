@@ -18,6 +18,7 @@ function App() {
   const [players, setPlayers] = useState<PlayerResponse[]>([]);
 
   function onEndPlay(match: Match) {
+    console.log("match: ", match)
     setMatches([...matches, match]);
   }
 
@@ -34,7 +35,7 @@ function App() {
     in cui non è necessaria l'autenticazione. Si salverà nel DB soltanto il nome del player e la relazione con il match giocato.
     Salvare i giocatori soltanto se il match è stato confermato.
 
-    Finita una partita, il BE esporrà una get per cui, inserito un nome giocatore, si vedrà la cronologia delle sue partite.
+    Finita una partita, il B  E esporrà una get per cui, inserito un nome giocatore, si vedrà la cronologia delle sue partite.
      */
     const username: string[] = [form.namePlayer1, form.namePlayer2];
     const request = {

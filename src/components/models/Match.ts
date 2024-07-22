@@ -1,4 +1,5 @@
 export interface Match {
-  winner: number;
+  winner: any;
+  loser: any;
   matrix: string[][];
 }

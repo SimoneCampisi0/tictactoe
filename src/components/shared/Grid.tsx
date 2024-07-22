@@ -14,7 +14,7 @@ export function Grid({onCellClick, matrix}) {
     if (value === 'X') {
       className = className + ' text-blue-500';
     } else {
-      className = className + ' text-amber-300';
+      className = className + ' text-green-500';
     }
 
     if(i === 0 && j === 0) {
