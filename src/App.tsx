@@ -17,10 +17,36 @@ function App() {
 
   const [players, setPlayers] = useState<PlayerResponse[]>([]);
 
-  function onEndPlay(match: Match) {
+  async function onEndPlay(match: Match) {
     console.log("match: ", match)
     setMatches([...matches, match]);
+
+    const request = {
+      matrix_json: JSON.stringify(match.matrix),
+      player_one_username: match.player_one.username,
+      player_two_username: match.player_two.username,
+      winner_username: match.winner.username,
+    };
+
+    try {
+      const resp = await fetch("http://localhost:8080/player/save-match-lite", {
+        method: "POST",
+        body: JSON.stringify(request),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+
+      if (!resp.ok) {
+        throw new Error(`Error: ${resp.status} ${resp.statusText}`);
+      }
+
+      const response: any[] = await resp.json();
+    } catch (e) {
+      console.error("Errore durante la chiamata: ", e);
+    }
   }
+
 
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     const {name, value} = event.target;

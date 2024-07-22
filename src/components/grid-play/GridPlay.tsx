@@ -43,7 +43,14 @@ function GridPlay({onEndPlay, players}) {
 
       if (localWinner === (p === "X" ? 1 : 2)) {
         setWinner(localWinner);
-        onEndPlay({winner: localWinner === 1 ? players[0] : players[1], loser: localWinner === 1 ? players[1] : players[0], matrix: newMatrix});
+        onEndPlay(
+            {
+              winner: localWinner === 1 ? players[0] : players[1],
+              loser: localWinner === 1 ? players[1] : players[0],
+              matrix: newMatrix,
+              player_one: players[0],
+              player_two: players[1],
+            });
         return true;
       }
 
