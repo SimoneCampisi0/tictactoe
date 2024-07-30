@@ -4,6 +4,7 @@ import StoricoPartite from "./components/storico-partite/StoricoPartite.tsx";
 import {Match} from "./components/models/Match.ts";
 import {useState} from "react";
 import {PlayerResponse} from "./components/dto/PlayerResponse.ts";
+import {GameResponse} from "./components/dto/GameResponse.ts";
 
 function App() {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -29,7 +30,7 @@ function App() {
     };
 
     try {
-      const resp = await fetch("http://localhost:8080/player/save-match-lite", {
+      const resp = await fetch("http://localhost:8080/game/save-match-lite", {
         method: "POST",
         body: JSON.stringify(request),
         headers: {
@@ -41,7 +42,7 @@ function App() {
         throw new Error(`Error: ${resp.status} ${resp.statusText}`);
       }
 
-      const response: any[] = await resp.json();
+      const response: GameResponse = await resp.json();
     } catch (e) {
       console.error("Errore durante la chiamata: ", e);
     }
