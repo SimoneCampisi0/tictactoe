@@ -1,0 +1,28 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    padding: 1em;
+    color: white;
+    border: 1px solid black;
+    border-radius: 0 0 0.5em 0.5em;
+}
+
+.header-title {
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    gap: 3em;
+    padding-right: 5em;
+}
+
+.menu-link:hover {
+    color: aqua;
+    transition: 0.2s ease-in;
+    cursor: pointer;
+}
